@@ -17,6 +17,26 @@ function partial(fn) {
 
 // 2. Currying
 function curry(fn) {
+	var args = arguments,
+		curryArgs = [];
+	
+	if (Object.prototype.toString.apply(fn) !== '[object Function]') {
+		throw {
+			name: 'TypeError',
+			message: 'first arg must be function'
+		};
+	}
+	
+	for (var i = 1; i < args.length; i++) {
+		curryArgs[i - 1] = args[i];
+	}
+	
+	return function() {
+		var argsArr = Array.prototype.slice.call(arguments, 0);
+		
+		curryArgs = curryArgs.concat(argsArr);
+		return fn.apply(this, curryArgs);
+	}
 }
 
 // 3. Linear Fold
@@ -102,3 +122,28 @@ Array.prototype.customFilter = function(callback) {
 }
 
 // 7. Average of even numbers
+function findAverageOfEven(array) {
+	if (Object.prototype.toString.apply(array) !== '[object Array]') {
+		throw {
+			name: 'TypeError',
+			message: 'first arg must be array'
+		};
+	}
+	
+	var isEven = function(value) {
+			return value % 2 === 0;
+		},
+		sum = function(prev, curr) {
+			return prev + curr;
+		};
+	
+	var filterArray = array.customFilter(isEven);
+	return linearFold(filterArray, sum) / filterArray.length;
+}
+
+// 8. Sum of random numbers
+function sumOfRandom(count, initialValue) {
+	var getRand = function(value) {
+			return 0;
+		};
+}
