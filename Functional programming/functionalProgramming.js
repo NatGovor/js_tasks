@@ -59,6 +59,7 @@ function linearFold(array, callback, initialValue) {
 	for (var i = 0; i < array.length; i++) {
 		prevValue = callback(prevValue, array[i], i, array);
 	}
+	// second variant
 	/*array.forEach(function(currValue, index, arr) {
 		prevValue = callback(prevValue, currValue, index, arr);
 	});*/
@@ -71,7 +72,7 @@ function linearUnfold(callback, initialValue) {
 	if (Object.prototype.toString.apply(callback) !== '[object Function]') {
 		throw {
 			name: 'TypeError',
-			message: 'second arg must be function'
+			message: 'first arg must be function'
 		};
 	}
 	
@@ -90,7 +91,7 @@ Array.prototype.customMap = function(callback) {
 	if (Object.prototype.toString.apply(callback) !== '[object Function]') {
 		throw {
 			name: 'TypeError',
-			message: 'second arg must be function'
+			message: 'first arg must be function'
 		};
 	}
 	
@@ -107,7 +108,7 @@ Array.prototype.customFilter = function(callback) {
 	if (Object.prototype.toString.apply(callback) !== '[object Function]') {
 		throw {
 			name: 'TypeError',
-			message: 'second arg must be function'
+			message: 'first arg must be function'
 		};
 	}
 	
@@ -133,17 +134,48 @@ function findAverageOfEven(array) {
 	var isEven = function(value) {
 			return value % 2 === 0;
 		},
-		sum = function(prev, curr) {
+		getSum = function(prev, curr) {
 			return prev + curr;
 		};
 	
 	var filterArray = array.customFilter(isEven);
-	return linearFold(filterArray, sum) / filterArray.length;
+	return linearFold(filterArray, getSum) / filterArray.length;
 }
 
 // 8. Sum of random numbers
-function sumOfRandom(count, initialValue) {
-	var getRand = function(value) {
-			return 0;
+function sumOfRandom(count) {
+	var genCount = 0,
+		getRand = function() {
+			if (genCount === count) {
+				return;
+			}
+			
+			genCount++;
+			return Math.random() * 10;
+		},
+		getSum = function(prev, curr) {
+			return prev + curr;
 		};
+		
+	return linearFold(linearUnfold(getRand), getSum);
+}
+
+// 9. First
+Array.prototype.customFirst = function(cond) {
+	if (Object.prototype.toString.apply(cond) !== '[object Function]') {
+		throw {
+			name: 'TypeError',
+			message: 'first arg must be function'
+		};
+	}
+	
+	for (var i=0; i < this.length; i++) {
+		if (cond(this[i])) {
+			return this[i];
+		}
+	}
+	return;
+	
+	// second variant
+	//return this.customFilter(cond).shift();
 }
