@@ -194,3 +194,25 @@ function lazy(fn) {
 	// second variant
 	return fn.bind.apply(fn, arguments);
 }
+
+// 11. Memoization
+function memoizer(fn) {
+	if (Object.prototype.toString.apply(fn) !== '[object Function]') {
+		throw {
+			name: 'TypeError',
+			message: 'first arg must be function'
+		};
+	}
+	
+	var memo;
+	
+	return function() {
+		if (memo) {
+			console.log('Get from memory');
+			return memo;
+		}
+		
+		memo = fn.apply(fn, arguments);
+		return memo;
+	};
+}
