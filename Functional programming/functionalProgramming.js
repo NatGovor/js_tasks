@@ -179,3 +179,18 @@ Array.prototype.customFirst = function(cond) {
 	// second variant
 	//return this.customFilter(cond).shift();
 }
+
+// 10. Lazy evaluation
+function lazy(fn) {
+	if (Object.prototype.toString.apply(fn) !== '[object Function]') {
+		throw {
+			name: 'TypeError',
+			message: 'first arg must be function'
+		};
+	}
+	
+	//return partial.apply(this, arguments);
+	
+	// second variant
+	return fn.bind.apply(fn, arguments);
+}
