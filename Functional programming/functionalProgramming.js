@@ -204,15 +204,43 @@ function memoizer(fn) {
 		};
 	}
 	
-	var memo;
+	var HashCode = function() {
+		var serialize = function(obj) {
+			var serializedCode = '',
+				type = typeof obj;
+			
+			if (type === 'object') {
+				for (var prop in obj) {
+					serializedCode += '[' + type + ':' + prop + serialize(obj[prop]) + ']';
+				}
+			} else if (type === 'function') {
+				serializedCode += '[' + type + ':' + obj.toString() + ']';
+			} else {
+				serializedCode = '[' + type + ':' + obj + ']';
+			}
+			
+			return serializedCode.replace(/\s/g, '');
+		};
+		
+		return {
+			value: function(obj) {
+				return serialize(obj);
+			}
+		}
+	};
 	
+	var memo = {},	
+		hashCoder = HashCode();
+
 	return function() {
-		if (memo) {
+		var hash = hashCoder.value(arguments);
+		
+		if (memo[hash]) {
 			console.log('Get from memory');
-			return memo;
+			return memo[hash];
 		}
 		
-		memo = fn.apply(fn, arguments);
-		return memo;
+		memo[hash] = fn.apply(fn, arguments);
+		return memo[hash];
 	};
 }
