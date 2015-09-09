@@ -17,8 +17,14 @@ function partial(fn) {
 
 // 2. Currying
 function curry(fn, n) {
-	var needArgsCount = n,
-		slice = Array.prototype.slice,
+	if (Object.prototype.toString.apply(fn) !== '[object Function]') {
+		throw {
+			name: 'TypeError',
+			message: 'first arg must be function'
+		};
+	}
+
+	var slice = Array.prototype.slice,
 		args = slice.call(arguments, 0);
 	
 	if (n === arguments.length - 2) {
