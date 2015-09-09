@@ -16,26 +16,17 @@ function partial(fn) {
 }
 
 // 2. Currying
-function curry(fn) {
-	var args = arguments,
-		curryArgs = [];
+function curry(fn, n) {
+	var needArgsCount = n,
+		slice = Array.prototype.slice,
+		args = slice.call(arguments, 0);
 	
-	if (Object.prototype.toString.apply(fn) !== '[object Function]') {
-		throw {
-			name: 'TypeError',
-			message: 'first arg must be function'
-		};
-	}
-	
-	for (var i = 1; i < args.length; i++) {
-		curryArgs[i - 1] = args[i];
-	}
-	
-	return function() {
-		var argsArr = Array.prototype.slice.call(arguments, 0);
-		
-		curryArgs = curryArgs.concat(argsArr);
-		return fn.apply(this, curryArgs);
+	if (n === arguments.length - 2) {
+		return fn.apply(this, slice.call(args, 2));
+	} else {
+		return function() {
+			return curry.apply(this, args.concat(slice.call(arguments, 0)));
+		}
 	}
 }
 
