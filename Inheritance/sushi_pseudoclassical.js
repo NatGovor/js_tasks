@@ -61,6 +61,29 @@ var Wasabi = function(name, price) {
 Wasabi.prototype = new Product();
 // end Other products
 
-var product = new Product('', 12);
-var fish = new Fish('test', 10);
-var esfish = new EsculantFish('test', 10);
+
+var products = [
+		new EsculantFish('Salmon', 5),
+		new EsculantFish('Eel', 3),
+		new Fish('Fugu', 7),
+		new Rice('Rice', 2),
+		new Nori('Nori', 2),
+		new Sauce('Sauce', 3),
+		new Wasabi('Rice', 2)
+	];
+
+var Sushi = function(name) {
+	this.name = name;
+	this.ingridients = [];
+};
+Sushi.addIngridient = function(ingridient) {
+};
+Sushi.calculatePrice = function() {
+};
+
+var productsTemplate = $("#products_template").html();
+$("#products").html(_.template(productsTemplate, {products: products}));
+
+$('.product').click(function(e) {
+	console.log($(e.target).data('name'));
+});
