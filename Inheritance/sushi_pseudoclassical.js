@@ -1,11 +1,3 @@
-if (typeof Object.create !== 'function') {
-	Object.create = function(o) {
-		var F = function() {};
-		F.prototype = o;
-		return new F();
-	};
-}
-
 // Basic product
 var Product = function(name, price) {
 	this.name = name;
@@ -62,28 +54,52 @@ Wasabi.prototype = new Product();
 // end Other products
 
 
-var products = [
-		new EsculantFish('Salmon', 5),
-		new EsculantFish('Eel', 3),
-		new Fish('Fugu', 7),
-		new Rice('Rice', 2),
-		new Nori('Nori', 2),
-		new Sauce('Sauce', 3),
-		new Wasabi('Rice', 2)
-	];
+var products = {
+		'Salmon': new EsculantFish('Salmon', 5),
+		'Eel': new EsculantFish('Eel', 3),
+		'Fugu': new Fish('Fugu', 7),
+		'Rice': new Rice('Rice', 2),
+		'Nori': new Nori('Nori', 2),
+		'Sauce': new Sauce('Sauce', 3),
+		'Wasabi': new Wasabi('Wasabi', 1),
+	};
 
 var Sushi = function(name) {
 	this.name = name;
 	this.ingridients = [];
+	this.price = 0;
 };
-Sushi.addIngridient = function(ingridient) {
+Sushi.prototype.addIngridient = function(key) {
+	if (products[key]) {
+		this.ingridients.push(products[key]);
+	}
 };
-Sushi.calculatePrice = function() {
+Sushi.prototype.clear = function() {
+	this.ingridients = [];
+	this.price = 0;
 };
+Sushi.prototype.calculatePrice = function() {
+	var price = 0;
+	_.each(this.ingridients, function(el) {
+		price += el.price;
+	});
+	this.price = price;
+	return this.price;
+};
+
+var sushi = new Sushi('test');
 
 var productsTemplate = $("#products_template").html();
 $("#products").html(_.template(productsTemplate, {products: products}));
 
-$('.product').click(function(e) {
-	console.log($(e.target).data('name'));
+$('.add_btn').click(function(e) {
+	sushi.addIngridient($(e.target).data('name'));
+});
+
+$('#calculate_btn').click(function() {
+	alert(sushi.calculatePrice());
+});
+
+$('#clear_btn').click(function() {
+	sushi.clear();
 });
