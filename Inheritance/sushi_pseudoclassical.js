@@ -70,8 +70,15 @@ var Sushi = function(name) {
 	this.price = 0;
 };
 Sushi.prototype.addIngridient = function(key) {
-	if (products[key]) {
-		this.ingridients.push(products[key]);
+	var product = products[key];
+	if (product) {
+		if (product instanceof Fish) {
+			if (product.isEsculant()) {
+				this.ingridients.push(product);
+			}
+		} else {
+			this.ingridients.push(product);
+		}
 	}
 };
 Sushi.prototype.clear = function() {
