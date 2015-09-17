@@ -99,14 +99,18 @@ var sushi = new Sushi('test');
 var productsTemplate = $("#products_template").html();
 $("#products").html(_.template(productsTemplate, {products: products}));
 
+var sushiTemplate = $("#sushi_template").html();
+
 $('.add_btn').click(function(e) {
 	sushi.addIngridient($(e.target).data('name'));
 });
 
 $('#calculate_btn').click(function() {
-	alert(sushi.calculatePrice());
+	sushi.calculatePrice();
+	$("#sushi").html(_.template(sushiTemplate, {sushi: sushi}));
 });
 
 $('#clear_btn').click(function() {
 	sushi.clear();
+	$("#sushi").html('');
 });
