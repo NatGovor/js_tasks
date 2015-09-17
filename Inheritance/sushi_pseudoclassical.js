@@ -69,12 +69,18 @@ var Sushi = function(name) {
 	this.ingridients = [];
 	this.price = 0;
 };
+Sushi.prototype = new Product();
+Product.prototype.getIngridients = function() {
+	return this.ingridients;
+};
 Sushi.prototype.addIngridient = function(key) {
 	var product = products[key];
 	if (product) {
 		if (product instanceof Fish) {
 			if (product.isEsculant()) {
 				this.ingridients.push(product);
+			} else {
+				alert('This is not esculant fish!');
 			}
 		} else {
 			this.ingridients.push(product);
@@ -94,12 +100,11 @@ Sushi.prototype.calculatePrice = function() {
 	return this.price;
 };
 
-var sushi = new Sushi('test');
+var sushi = new Sushi('test'),
+productsTemplate = $("#products_template").html(),
+sushiTemplate = $("#sushi_template").html();
 
-var productsTemplate = $("#products_template").html();
 $("#products").html(_.template(productsTemplate, {products: products}));
-
-var sushiTemplate = $("#sushi_template").html();
 
 $('.add_btn').click(function(e) {
 	sushi.addIngridient($(e.target).data('name'));
