@@ -36,12 +36,14 @@ wasabi.name = 'Wasabi';
 wasabi.price = 1;
 
 var fish = Object.create(product);
-fish.name = 'Fugu';
-fish.price = 7;
 fish.esculant = false;
 fish.isEsculant = function() {
 	return this.esculant;
 };
+
+var fugu = Object.create(fish);
+fugu.name = 'Fugu';
+fugu.price = 7;
 
 var salmon = Object.create(fish);
 salmon.name = 'Salmon';
@@ -54,5 +56,52 @@ eel.price = 3;
 eel.esculant = true;
 
 var products = {
-		'Rice': rice
+		'Rice': rice,
+		'Nori': nori,
+		'Sauce': sauce,
+		'Wasabi': wasabi,
+		'Fugu': fugu,
+		'Salmon': salmon,
+		'Eel': eel
 	};
+
+var sushi = {
+	name: 'Test',
+	ingridients: [],
+	price: 0,
+	getName: function() {
+		return this.name;
+	},
+	getPrice: function() {
+		return this.price;
+	},
+	getIngridients: function() {
+		return this.ingridients;
+	},
+	addIngridient: function(key) {
+		var product = products[key];
+		if (product) {
+			if (product.isEsculant) {
+				if (product.isEsculant()) {
+					this.ingridients.push(product);
+				} else {
+					alert('This is not esculant fish!');
+				}
+			} else {
+				this.ingridients.push(product);
+			}
+		}
+	},
+	clear: function() {
+		this.ingridients = [];
+		this.price = 0;
+	},
+	calculatePrice: function() {
+		var price = 0;
+		_.each(this.ingridients, function(el) {
+			price += el.price;
+		});
+		this.price = price;
+		return this.price;
+	}
+};

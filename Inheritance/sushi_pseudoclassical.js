@@ -70,7 +70,7 @@ var Sushi = function(name) {
 	this.price = 0;
 };
 Sushi.prototype = new Product();
-Product.prototype.getIngridients = function() {
+Sushi.prototype.getIngridients = function() {
 	return this.ingridients;
 };
 Sushi.prototype.addIngridient = function(key) {
@@ -100,22 +100,4 @@ Sushi.prototype.calculatePrice = function() {
 	return this.price;
 };
 
-var sushi = new Sushi('test'),
-productsTemplate = $("#products_template").html(),
-sushiTemplate = $("#sushi_template").html();
-
-$("#products").html(_.template(productsTemplate, {products: products}));
-
-$('.add_btn').click(function(e) {
-	sushi.addIngridient($(e.target).data('name'));
-});
-
-$('#calculate_btn').click(function() {
-	sushi.calculatePrice();
-	$("#sushi").html(_.template(sushiTemplate, {sushi: sushi}));
-});
-
-$('#clear_btn').click(function() {
-	sushi.clear();
-	$("#sushi").html('');
-});
+var sushi = new Sushi('test');

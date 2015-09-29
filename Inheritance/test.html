@@ -55,5 +55,25 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<!--<script type="text/javascript" src="sushi_pseudoclassical.js"></script>-->
 	<script type="text/javascript" src="sushi_prototypal.js"></script>
+	<script type="text/javascript">
+		var productsTemplate = $("#products_template").html(),
+			sushiTemplate = $("#sushi_template").html();
+
+		$("#products").html(_.template(productsTemplate, {products: products}));
+
+		$('.add_btn').click(function(e) {
+			sushi.addIngridient($(e.target).data('name'));
+		});
+
+		$('#calculate_btn').click(function() {
+			sushi.calculatePrice();
+			$("#sushi").html(_.template(sushiTemplate, {sushi: sushi}));
+		});
+
+		$('#clear_btn').click(function() {
+			sushi.clear();
+			$("#sushi").html('');
+		});
+	</script>
 </body>
 </html>
