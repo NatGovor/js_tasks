@@ -99,7 +99,7 @@ var sushi = {
 	calculatePrice: function() {
 		var price = 0;
 		_.each(this.ingridients, function(el) {
-			price += el.price;
+			price += el.getPrice();
 		});
 		this.price = price;
 		return this.price;

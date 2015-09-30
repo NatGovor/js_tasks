@@ -43,7 +43,7 @@
 		<h3>Created Sushi</h3>
 		<div class="col-xs-12">
 			<% _.each(sushi.getIngridients(), function(ingridient) { %>
-				<div><%= ingridient.name %></div>
+				<div><%= ingridient.getName() %></div>
 			<% }); %>
 			<hr/>
 			<strong>Price: </strong><%= sushi.getPrice() %>
@@ -54,7 +54,8 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<!--<script type="text/javascript" src="sushi_pseudoclassical.js"></script>-->
-	<script type="text/javascript" src="sushi_prototypal.js"></script>
+	<!--<script type="text/javascript" src="sushi_prototypal.js"></script>-->
+	<script type="text/javascript" src="sushi_functional.js"></script>
 	<script type="text/javascript">
 		var productsTemplate = $("#products_template").html(),
 			sushiTemplate = $("#sushi_template").html();
